@@ -1,5 +1,11 @@
 <?php defined('DOC_ROOT') or exit(0);
 
+/**
+ * JAMP Request Class
+ *
+ * @package   jamp
+ * @author    Serdar Yildirim
+ */
 class Request extends Base_Singleton
 {
 	const GET = 'GET';
@@ -38,11 +44,17 @@ class Request extends Base_Singleton
 		return self::$_instance;
 	}
 	
+	/**
+	 * Runs requested action and returns the response
+	 */
 	public function getResponse()
 	{		
 		$response = $this->runRequestedAction();
 	}
 	
+	/**
+	 * Finds client's ip
+	 */
 	private function findClientIp()
 	{
 		if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))	Request::$clientHost = $_SERVER['HTTP_X_FORWARDED_FOR'];
@@ -51,17 +63,26 @@ class Request extends Base_Singleton
 		else 											Request::$clientHost = '0.0.0.0';
 	}
 	
+	/**
+	 * Finds client's host
+	 */
 	private function findClientHost()
 	{
 		if (isset($_SERVER['HTTP_HOST'])) Request::$clientHost = $_SERVER['HTTP_HOST'];
 	}
 	
+	/**
+	 * Finds client's agent
+	 */
 	private function findClientAgent()
 	{
 		if (isset($_SERVER['HTTP_USER_AGENT']))
 			Request::$clientAgent = $_SERVER['HTTP_USER_AGENT'];
 	}
 	
+	/**
+	 * Finds client's http method
+	 */
 	private function findHttpMethod()
 	{
 		Request::$method = Request::GET;
@@ -70,6 +91,9 @@ class Request extends Base_Singleton
 			Request::$method = $_SERVER['REQUEST_METHOD'];
 	}
 	
+	/**
+	 * Sets requested uri
+	 */
 	private function setRequestedUri()
 	{
 		if (isset($_SERVER['REQUEST_URI']))
@@ -87,16 +111,27 @@ class Request extends Base_Singleton
 		Logger::Info('Detected Uri is: ' . $this->_uri);
 	}
 	
+	/**
+	 * Prepare requested uri
+	 */
 	private function prepareRequestedUriFromUri()
 	{
 		$this->_uri = rawurldecode($this->getUrlPathOfUrl($_SERVER['REQUEST_URI']));
 	}
 	
+	/**
+	 * Get url path of the url
+	 * 
+	 * @return parsed url
+	 */
 	private function getUrlPathOfUrl($uri)
 	{
 		return parse_url($uri, PHP_URL_PATH);
 	}
 	
+	/**
+	 * Removes base url path from uri
+	 */
 	private function removeBaseUrlPathFromUri()
 	{
 		$baseUrlPath = parse_url(Core::getAppSettingValue('base_url'), PHP_URL_PATH);
@@ -108,6 +143,9 @@ class Request extends Base_Singleton
 		$this->_uri = substr($this->_uri, strlen($baseUrlPath));
 	}
 	
+	/**
+	 * Runs requested action
+	 */
 	private function runRequestedAction()
 	{
 		$controllerClass = $this->getRequestedController();
@@ -126,16 +164,29 @@ class Request extends Base_Singleton
 		}
 	}
 	
+	/**
+	 * Gets requested controller
+	 * 
+	 * @return string
+	 */
 	private function getRequestedController()
 	{		
 		return 'Controller_' . $this->_route->getController();
 	}
 	
+	/**
+	 * Gets requested action
+	 * 
+	 * @return string
+	 */
 	private function getRequestedAction()
 	{		
 		return 'action' . $this->_route->getAction();
 	}
 	
+	/**
+	 * Finds the route
+	 */
 	private function findRoute()
 	{		
 		try {

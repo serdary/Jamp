@@ -1,5 +1,11 @@
 <?php defined('DOC_ROOT') or exit(0);
 
+/**
+ * JAMP Helper Utils Class
+ *
+ * @package   jamp
+ * @author    Serdar Yildirim
+ */
 class Helper_Utils extends Base_Singleton
 {
 	private static $_instance;
@@ -14,12 +20,23 @@ class Helper_Utils extends Base_Singleton
 		return self::$_instance;
 	}
 	
-	public function sanitizeArray(& $values)
+	/**
+	 * Sanitizes an array
+	 * 
+	 * @param array $values
+	 */
+	public function sanitizeArray(Array & $values)
 	{
 		foreach ($values as $key => $value)
 			$value[$key] = $this->sanitize($value);
 	}
 	
+	/**
+	 * Sanitize a value
+	 * 
+	 * @param mixed $value
+	 * @return mixed
+	 */
 	public function sanitize($value)
 	{
 		if (!is_string($value))	return $value;

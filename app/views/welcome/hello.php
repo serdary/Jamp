@@ -1,7 +1,7 @@
-WELCOME CONTROLLER HELLO ACTION VIEW
+WELCOME CONTROLLER HELLO ACTION VIEW ---
 
-ID IS: <?php echo $id; ?>
+BIND ID IS: <?php echo $id; ?>
 
 <br />
 
-PARENT ID IS: <?php echo $parentId; ?>
+BIND PARENT ID IS: <?php echo $parentId; ?>

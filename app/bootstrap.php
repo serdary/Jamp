@@ -2,6 +2,12 @@
 
 include_once SYS_PATH . 'classes/base/singleton.php';
 
+/**
+ * JAMP Bootstrap Class
+ *
+ * @package   jamp
+ * @author    Serdar Yildirim
+ */
 class Bootstrap extends Base_Singleton
 {
 	private static $_instance;
@@ -22,6 +28,9 @@ class Bootstrap extends Base_Singleton
 		return self::$_instance;
 	}
 	
+	/**
+	 * Inits the bootstrap object
+	 */
 	public function init()
 	{
 		Core::init();
@@ -29,14 +38,22 @@ class Bootstrap extends Base_Singleton
 		$this->setSettings();
 		
 		$this->setRoutes();
+		
+		$this->setModules();
 	}
 	
+	/**
+	 * Sets core's settings
+	 */
 	private function setSettings()
 	{
-		$settings = array('base_url' => "/Jamp");
+		$settings = array('base_url' => "/RelationshipsBook");
 		Core::setAppSettings($settings);
 	}
 	
+	/**
+	 * Sets routes
+	 */
 	private function setRoutes()
 	{	
 		Router::instance()->setRoute(new Route('username', '/user/:username', 'user'));
@@ -48,5 +65,15 @@ class Bootstrap extends Base_Singleton
 		Router::instance()->setRoute(new Route('defaultController', '/:controller'));
 		
 		Router::instance()->setRoute(new Route('homepage', '/', 'welcome'));
+	}
+	
+	/**
+	 * Sets modules
+	 */
+	private function setModules()
+	{
+		$modules = array('database');
+		
+		Core::setAppModules($modules);
 	}
 }

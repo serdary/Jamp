@@ -1,5 +1,11 @@
 <?php defined('DOC_ROOT') or exit(0);
 
+/**
+ * JAMP Route Class
+ *
+ * @package   jamp
+ * @author    Serdar Yildirim
+ */
 class Route
 {
 	private $_name;
@@ -19,6 +25,12 @@ class Route
 		$this->_defaultController = $defaultController;
 	}
 	
+	/**
+	 * Matces a uri to a route
+	 * 
+	 * @param string $uri
+	 * @return boolean
+	 */
 	public function matches($uri)
 	{
 		Logger::Info("Pattern: " . $this->_pattern);
@@ -26,7 +38,7 @@ class Route
 	    preg_match_all(Route::PATTERN_REGEX_MATCH, $this->_pattern, $matches, PREG_PATTERN_ORDER);
     	$matches = $matches[0];
     	
-		Logger::Info("MATCHES");Logger::InfoArr($matches);
+		Logger::Info("MATCHES");Logger::Info($matches);
  
     	$patternRegex = sprintf("@^%s/?$@", 
     		preg_replace(Route::PATTERN_REGEX_MATCH, Route::PATTERN_REGEX_REPLACE, $this->_pattern));
@@ -44,14 +56,19 @@ class Route
 	    
 	    $this->setRouteHandlers($params);
 
-		Logger::Info("VALUES");Logger::InfoArr($matchedValues);
-		Logger::Info("PARAMS");Logger::InfoArr($params);
+		Logger::Info("VALUES");Logger::Info($matchedValues);
+		Logger::Info("PARAMS");Logger::Info($params);
 		Logger::Info("-------------------------------------------------------------------------------");
 		
-		// TODO: isHomeRoute() function hack is not a good way, change!
+		// TODO: isHomeRoute() hack is not a good way, change!
 		return (count($params) > 0 || $this->isHomeRoute());
 	}
 	
+	/**
+	 * Sets the route params
+	 * 
+	 * @param array $params
+	 */
 	private function setRouteParams(&$params)
 	{
 	    foreach ($params as $key => $val)
@@ -62,6 +79,11 @@ class Route
 	    }
 	}
 	
+	/**
+	 * Sets the route handlers
+	 * 
+	 * @param array $params
+	 */
 	private function setRouteHandlers($params)
 	{		
 		$this->setController(Helper_ArrayUtils::isKeySet('controller', $params) 
@@ -72,9 +94,14 @@ class Route
 		$this->setParams(Helper_ArrayUtils::isKeySet('param', $params) ? $params['param'] : NULL);
 	}
 	
+	/**
+	 * Checks if the route is home route
+	 * 
+	 * @return boolean
+	 */
 	private function isHomeRoute()
 	{
-		return ($this->_pattern === '/' && $this->_defaultController !== NULL);
+		return $this->_pattern === '/' && $this->_defaultController !== NULL;
 	}
 	
 	/* Getters and Setters */
