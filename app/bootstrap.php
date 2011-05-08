@@ -47,7 +47,7 @@ class Bootstrap extends Base_Singleton
 	 */
 	private function setSettings()
 	{
-		$settings = array('base_url' => "/RelationshipsBook");
+		$settings = array('base_url' => "/Jamp");
 		Core::setAppSettings($settings);
 	}
 	
