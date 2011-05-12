@@ -11,19 +11,21 @@ class DB implements IDB
 	private $_driver;
 	private $_conf;
 	
-	const SELECT = 1;
-	const UPDATE = 2;
-	const INSERT = 3;
-	const DELETE = 4;
+	public function __construct() { }
 	
-	public function __construct()
+	/**
+	 * Sets config object of db class
+	 * 
+	 * @see IDB::setConfig()
+	 */
+	public function setConfig(Config $conf)
 	{
-		$this->_conf = Config::getConf('database');
+		$this->_conf = $conf;
 		
 		$driverClassName = 'Driver_' . ucfirst($this->_conf->get('driver')); 
 		$this->setDriver(new $driverClassName);
 	}
-	
+		
 	/**
 	 * Sets driver object of db class
 	 * 
@@ -32,6 +34,7 @@ class DB implements IDB
 	public function setDriver(Driver_Driver $driver)
 	{
 		$this->_driver = $driver;
+		$this->_driver->setDriver($this->_conf);
 	}
 	
 	/**

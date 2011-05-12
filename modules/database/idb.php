@@ -8,6 +8,7 @@
  */
 interface IDB
 {
+	public function setConfig(Config $conf);
 	public function setDriver(Driver_Driver $driver);
 	public function select($table, $columns, $conditions);
 	public function update($table, $data, $conditions);

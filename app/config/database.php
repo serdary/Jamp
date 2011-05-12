@@ -4,7 +4,7 @@ $config = array(
 
 	'connection' => 
 	array(
-		'dsn' => 'mysql:host=localhost;dbname=test_db',
+		'dsn' => 'mysql:host=localhost;dbname=production_db',
 		'username' => 'root',
 		'password' => '',
 		'persistent' => FALSE,

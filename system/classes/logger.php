@@ -18,10 +18,10 @@ class Logger
 		if (Helper_Check::isNull($data))	return;
 		
 		//TODO: change this to filesystem log!
-		
+		/*
 		if (is_array($data))		print_r($data);
 		else if (is_object($data))	var_dump($data);
-		else						echo "LOGGER-INFO:: $data <br />";
+		else						echo "LOGGER-INFO:: $data <br />";*/
 	}
 	
 	/**
@@ -30,10 +30,10 @@ class Logger
 	 * @param string $data
 	 */
 	public static function Fatal($msg)
-	{
+	{/*
 		if (Helper_Check::isNull($data))	return;
 		
 		//TODO: change this to filesystem log!
-		echo "LOGGER-FATAL:: $msg <br />";
+		echo "LOGGER-FATAL:: $msg <br />";*/
 	}
 }

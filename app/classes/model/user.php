@@ -9,102 +9,85 @@
 class Model_User extends Model
 {
 	/* members */
-	private $_id;
+	protected $id;
 	private $_name;
 	private $_surname;
+	private $_username;
+	private $_email;
+	private $_password;
+	private $_lastLogin;
+	private $_latestActivity;
+	private $_lastIp;
+	private $_accountStatus;
 	private $_age;
 	private $_gender;
+	private $_createdAt;
+	private $_updatedAt;
 	/* members */
 	
 	const TABLE = 'user';
-	const MALE = 0;
-	const FEMALE = 1;
 	
-	private $_db;
-	private $_mapper;
-
 	public function __construct()
 	{
-		$this->_mapper = new Model_UserMapper;
-	}
-	
-	/**
-	 * Sets db object
-	 * 
-	 * @param IDB $db
-	 */
-	public function setDB(IDB $db)
-	{
-		$this->_db = $db;
+		$this->mapper = new Model_UserMapper;
 	}
 	
 	/**
 	 * Fills user's properties
-	 * 
-	 * @param string $name
-	 * @param string $surname
-	 * @param int $age
-	 * @param bit $gender
 	 */
-	public function fillUserFields($name, $surname, $age, $gender)
+	protected function fillProperties(Array $properties)
 	{
+		extract($properties);
+		
+		$this->id = $id;
 		$this->_name = $name;
 		$this->_surname = $surname;
+		$this->_username = $username;
+		$this->_email = $email;
+		$this->_password = $password;
+		$this->_lastLogin = $last_login;
+		$this->_latestActivity = $latest_activity;
+		$this->_lastIp = $last_ip;
+		$this->_accountStatus = $account_status;
 		$this->_age = $age;
 		$this->_gender = $gender;
+		$this->_createdAt = $created_at;
+		$this->_updatedAt = $updated_at;
 	}
 	
-	/**
-	 * Loads a user by id
-	 * 
-	 * @param int $id
-	 */
-	public function load($id)
-	{
-		$userArr = $this->_db->select(self::TABLE, NULL, array('id' => $id));
-		
-		if (Helper_Check::isListEmptyOrNull($userArr))	return NULL;
-		
-		extract($userArr[0]);
-		$this->_id = $id;
-		$this->fillUserFields($name, $surname, $age, $gender);
-		
-		return $this;
-	}
-	
-	/**
-	 * Saves the user
-	 */
-	public function save()
-	{
-		$this->_id = $this->_db->insert(self::TABLE, $this->_mapper->insert($this));
-	}
-	
-	/**
-	 * Updates the user
-	 */
-	public function update()
-	{
-		return $this->_db->update(self::TABLE, $this->_mapper->update($this), array('id' => $this->_id));
-	}
-	
-	/**
-	 * Deletes the user
-	 */
 	public function delete()
 	{
-		return $this->_db->delete(self::TABLE, array('id' => $this->_id));
+		$this->_accountStatus = Helper_AccountStatus::DELETED;
+		return $this->db->update(Model_User::TABLE, $this->mapper->update($this), array('id' => $this->id));
 	}
-	
-	/* Getters and Setters*/
-	public function getID() { return $this->_id; }
+		
+	/* Getters and Setters*/	
+	public function getID() { return $this->id; }
 	public function getName() { return $this->_name; }
 	public function getSurname() { return $this->_surname; }
+	public function getUsername() { return $this->_username; }
+	public function getEmail() { return $this->_email; }
+	public function getPassword() { return $this->_password; }
+	public function getLastLogin() { return $this->_lastLogin; }
+	public function getLatestActivity() { return $this->_latestActivity; }
+	public function getLastIp() { return $this->_lastIp; }
+	public function getAccountStatus() { return $this->_accountStatus; }
 	public function getAge() { return $this->_age; }
 	public function getGender() { return $this->_gender; }
+	public function getCreatedAt() { return $this->_createdAt; }
+	public function getUpdatedAt() { return $this->_updatedAt; }
 	
 	public function setName($val) { $this->_name = $val; }
 	public function setSurname($val) { $this->_surname = $val; }
+	public function setUsername($val) { $this->_username = $val; }
+	public function setEmail($val) { $this->_email = $val; }
+	public function setPassword($val) { $this->_password = $val; }
+	public function setLastLogin($val) { $this->_lastLogin = $val; }
+	public function setLatestActivity($val) { $this->_latestActivity = $val; }
+	public function setLastIp($val) { $this->_lastIp = $val; }
+	public function setAccountStatus($val) { $this->_accountStatus = $val; }
 	public function setAge($val) { $this->_age = $val; }
 	public function setGender($val) { $this->_gender = $val; }
+	public function setCreatedAt($val) { $this->_createdAt = $val; }
+	public function setUpdatedAt($val) { $this->_updatedAt = $val; }
 }

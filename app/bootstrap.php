@@ -56,6 +56,8 @@ class Bootstrap extends Base_Singleton
 	 */
 	private function setRoutes()
 	{	
+		Router::instance()->setRoute(new Route('signup', '/signup', 'user'));
+		Router::instance()->setRoute(new Route('login', '/login', 'user'));
 		Router::instance()->setRoute(new Route('username', '/user/:username', 'user'));
 		
 		// Default route of app

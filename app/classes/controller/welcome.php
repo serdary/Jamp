@@ -6,7 +6,7 @@
  * @package   jamp
  * @author    Serdar Yildirim
  */
-class Controller_Welcome extends Controller
+class Controller_Welcome extends Controller_Template_Main
 {
 	public function __construct()
 	{

@@ -35,6 +35,13 @@ class Route
 	{
 		Logger::Info("Pattern: " . $this->_pattern);
 		
+		if ($uri === $this->_pattern && $this->_defaultController !== NULL)
+		{
+			$action = $this->_pattern === "/" ? 'index' : substr($this->_pattern, 1);
+			$this->setRouteHandlers(array('controller' => $this->_defaultController, 'action' => $action));
+			return TRUE;
+		}
+		
 	    preg_match_all(Route::PATTERN_REGEX_MATCH, $this->_pattern, $matches, PREG_PATTERN_ORDER);
     	$matches = $matches[0];
     	
@@ -60,8 +67,8 @@ class Route
 		Logger::Info("PARAMS");Logger::Info($params);
 		Logger::Info("-------------------------------------------------------------------------------");
 		
-		// TODO: isHomeRoute() hack is not a good way, change!
-		return (count($params) > 0 || $this->isHomeRoute());
+		//return (count($params) > 0 || $this->isHomeRoute());
+		return (count($params) > 0);
 	}
 	
 	/**

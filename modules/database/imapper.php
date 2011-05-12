@@ -8,6 +8,6 @@
  */
 interface IMapper
 {
-	public function insert($data);
-	public function update($data);
+	public function insert(Model $data);
+	public function update(Model $data);
 }

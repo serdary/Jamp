@@ -11,14 +11,19 @@ abstract class Driver_Driver
 	protected $connection;
 	protected $conf;
 	
-	public function __construct()
-	{
-		$this->conf = Config::getConf('database');
-	}
+	public function __construct() { }
 	
 	public function __destruct()
 	{
 		$this->disconnect();
+	}
+
+	/**
+	 * Sets conf object of driver class
+	 */
+	public function setDriver(Config $conf)
+	{
+		$this->conf = $conf;
 	}
 	
 	abstract public function connect();
